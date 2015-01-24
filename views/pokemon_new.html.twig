@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>Create your pokemon</h1>
+
+    <form id="loginForm" role="form" method="post">
+        <div class="form-group">
+            <label for="username">Username: </label>
+            <div class="input-group">
+                <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+            </div>
+        </div>
+
+        <label for="type">Type: </label>
+        <select name="type" id="type">
+            <option value="<?php echo \Cartman\Init\Pokemon::TYPE_FIRE; ?>">Type fire</option>
+            <option value="1">Type water</option>
+            <option value="2">Type plant</option>
+        </select>
+        <button type="submit" class="btn btn-default" name="loginSubmit">Submit</button>
+    </form>
+
+{% endblock %}

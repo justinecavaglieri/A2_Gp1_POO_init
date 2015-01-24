@@ -1,0 +1,26 @@
+{
+    "name": "justine/a2_gp1_poo_init",
+    "require": {
+        "cocur/slugify": "~1.0",
+        "doctrine/dbal": "~2.5",
+        "doctrine/orm": "~2.4",
+        "twig/twig": "~1.0",
+        "symfony/console": "~2.6"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "justinecavaglieri",
+            "email": "justine.cavaglieri@hotmail.fr"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload":{
+        "psr-4":{
+            "Cartman\\Init\\": "src"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}
