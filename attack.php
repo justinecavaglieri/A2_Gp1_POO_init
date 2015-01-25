@@ -10,49 +10,34 @@ use \Cartman\Init\Pokemon\Model\PokemonModel;
 
 $pokemonRepository = $em->getRepository('Cartman\Init\Pokemon\Model\PokemonModel');
 
+$userRepository = $em->getRepository('Cartman\Init\Trainer\Model\TrainerModel');
+
 /** @var PokemonModel $stricker */
 $stricker  = $pokemonRepository->findOneBy(array('user_id' => $_SESSION['id']));
+$user = $userRepository->findAll();
 
-
-$pokemons =$pokemonRepository->findAll();
+$pokemons = $pokemonRepository->findAll();
 shuffle($pokemons);
 
 /** @var PokemonModel $goal */
 $goal = array_pop($pokemons);
 
-/**
- * Parameters
- */
-$matchover = false;
-$i=1;
+if(strtotime('now') - $user->getLastBattle() < 3600*6){
+    echo 'fail';
+} else {
 
+    $attack = mt_rand(10, 20);
+    if (true === $stricker->isTypeWeak($goal->getType()))
+        $attack = ceil($attack / 2);
 
-$type_atk = $pokemons->settype($type);
-/**echo $stricker->getUsername().' VS '.$goal->getUsername().'</br>';**/
-while (false === $matchover) {
-    echo '</br>round '.$i.'</br>';
+    if (true === $stricker->isTypeStrong($goal->getType()))
+        $attack = ceil($attack * 2);
 
-    $na = mt_rand(1, 3);
-    for ($j = 0 ; $j < $na; $j++) {
-        $attack = mt_rand(5, 20);
-        if (true === $stricker->isTypeWeak($goal->getType()))
-            $attack = ceil($attack / 2);
-
-        if (true === $stricker->isTypeStrong($goal->getType()))
-            $attack = ceil($attack * 2);
-
-        $goal->removeHP((int)$attack);
-        echo $goal->getUsername().' loses '.$attack.' HP, '.$goal->getHP().' left him </br>';
-    }
-    if (0 === $goal->getHP()){
-        $matchover = true;
-    }
-    if (false === $matchover)
-        list($stricker, $goal) = [$goal, $stricker];
-
-    $i++;
+    $goal->removeHP((int)$attack);
+    $user->getLastBattle(strtotime('now'));
+    $em->persist($goal, $user);
+    $em->flush();
 }
-echo '</br>'.$stricker->getUsername().' win! '.$stricker->getHP().' HP left him.';
 
 $connected= $_SESSION['connected'];
 $homeSession = $_SESSION;

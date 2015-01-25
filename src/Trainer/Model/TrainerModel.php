@@ -36,6 +36,20 @@ class TrainerModel
     private $password;
 
     /**
+     * @var int
+     *
+     * @Column (name="lastBattle", type="integer")
+     */
+    private $lastBattle;
+
+    /**
+     * @var int
+     *
+     * @Column (name="lastRevive", type="integer")
+     */
+    private $lastRevive;
+
+    /**
      * @return int
      */
     public function getId()
@@ -91,6 +105,46 @@ class TrainerModel
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getLastBattle()
+    {
+        return $this->lastBattle;
+    }
+
+    /**
+     * @param int $lastBattle
+     *
+    * @throws \Exception
+    *
+    * @return TrainerModel
+    */
+    public function setLastBattle($lastBattle)
+    {
+        $this->lastBattle = $lastBattle;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLastRevive()
+    {
+        return $this->lastRevive;
+    }
+
+    /**
+     * @param int $lastRevive
+     *
+     * @throws \Exception
+     *
+     * @return TrainerModel
+     */
+
+    public function setLastRevive($lastRevive)
+    {
+        $this->lastRevive = $lastRevive;
+    }
 
 
 } 

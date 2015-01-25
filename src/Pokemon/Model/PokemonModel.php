@@ -46,6 +46,7 @@ class PokemonModel implements PokemonInterface
      *
      * @Column(name="type", type="smallint")
      */
+
     private $type;
 
     const TYPE_FIRE     = 0;
@@ -195,19 +196,18 @@ class PokemonModel implements PokemonInterface
 
     /**
      * @param $type
-     * @param $type_atk
      * @return bool
      */
-    public function isTypeWeak($type, $type_atk)
+    public function isTypeWeak($type)
     {
         if($type === self::TYPE_FIRE){
-            return (self::TYPE_WATER === $type_atk) ? true : false;
+            return (self::TYPE_WATER === $type) ? true : false;
         }
         elseif($type === self::TYPE_WATER){
-            return (self::TYPE_PLANT === $type_atk) ? true : false;
+            return (self::TYPE_PLANT === $type) ? true : false;
         }
         elseif($type === self::TYPE_PLANT){
-            return (self::TYPE_FIRE === $type_atk) ? true : false;
+            return (self::TYPE_FIRE === $type) ? true : false;
         }
         else
             return false;
@@ -216,19 +216,18 @@ class PokemonModel implements PokemonInterface
 
     /**
      * @param $type
-     * @param $type_atk
      * @return bool
      */
-    public function isTypeStrong($type, $type_atk)
+    public function isTypeStrong($type)
     {
         if($type === self::TYPE_FIRE){
-            return (self::TYPE_PLANT === $type_atk) ? true : false;
+            return (self::TYPE_PLANT === $type) ? true : false;
         }
         elseif($type === self::TYPE_WATER){
-            return (self::TYPE_FIRE === $type_atk) ? true : false;
+            return (self::TYPE_FIRE === $type) ? true : false;
         }
         elseif($type === self::TYPE_PLANT){
-            return (self::TYPE_WATER === $type_atk) ? true : false;
+            return (self::TYPE_WATER === $type) ? true : false;
         }
         else
             return false;
