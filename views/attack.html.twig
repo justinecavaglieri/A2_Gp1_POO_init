@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-{{ stricker.username }} VS {{ goal.username }}
+<h2>{{ stricker.username }} VS {{ goal.username }}</h2>
+
+    <h3>{{ goal.username }} loses, {{ goal.HP }} left him.</h3>
+
+    <h3>{{ stricker.username }} win! {{ stricker.HP }} left him.</h3>
 {% endblock %}

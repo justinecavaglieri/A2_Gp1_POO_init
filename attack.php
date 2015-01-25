@@ -2,57 +2,55 @@
 
 require __DIR__ . '/_header.php';
 
+if (empty($_SESSION['connected']))
+    header("Location: login.php");
 
 /** @var \Doctrine\ORM\EntityManager $em */
 $em = require __DIR__.'/bootstrap.php';
 
 use \Cartman\Init\Pokemon\Model\PokemonModel;
+use \Cartman\Init\Trainer\Model\TrainerModel;
 
+/** @var  \Doctrine\ORM\EntityRepository $pokemonRepository */
 $pokemonRepository = $em->getRepository('Cartman\Init\Pokemon\Model\PokemonModel');
+
+/** @var \Doctrine\ORM\EntityRepository $userRepository */
+$userRepository = $em->getRepository('Cartman\Init\Trainer\Model\TrainerModel');
 
 /** @var PokemonModel $stricker */
 $stricker  = $pokemonRepository->findOneBy(array('user_id' => $_SESSION['id']));
 
+/** @var TrainerModel $user */
+$user = $userRepository->find($_SESSION['id']);
 
-$pokemons =$pokemonRepository->findAll();
+$pokemons = $pokemonRepository->findAll();
 shuffle($pokemons);
 
 /** @var PokemonModel $goal */
 $goal = array_pop($pokemons);
 
 /**
- * Parameters
+ * Time
  */
-$matchover = false;
-$i=1;
-
-
-$type_atk = $pokemons->settype($type);
-/**echo $stricker->getUsername().' VS '.$goal->getUsername().'</br>';**/
-while (false === $matchover) {
-    echo '</br>round '.$i.'</br>';
-
-    $na = mt_rand(1, 3);
-    for ($j = 0 ; $j < $na; $j++) {
-        $attack = mt_rand(5, 20);
-        if (true === $stricker->isTypeWeak($goal->getType()))
-            $attack = ceil($attack / 2);
-
-        if (true === $stricker->isTypeStrong($goal->getType()))
-            $attack = ceil($attack * 2);
-
-        $goal->removeHP((int)$attack);
-        echo $goal->getUsername().' loses '.$attack.' HP, '.$goal->getHP().' left him </br>';
-    }
-    if (0 === $goal->getHP()){
-        $matchover = true;
-    }
-    if (false === $matchover)
-        list($stricker, $goal) = [$goal, $stricker];
-
-    $i++;
+$lastBattle = $user->getLastBattle();
+$time = strtotime("now");
+if($time - $lastBattle <= (3600*6))
+{
+    header("location: error-1.php");
 }
-echo '</br>'.$stricker->getUsername().' win! '.$stricker->getHP().' HP left him.';
+
+    $attack = mt_rand(10, 20);
+    if (true === $stricker->isTypeWeak($goal->getType()))
+        $attack = ceil($attack / 2);
+
+    if (true === $stricker->isTypeStrong($goal->getType()))
+        $attack = ceil($attack * 2);
+
+    $goal->removeHP((int)$attack);
+    $user->setLastBattle($time);
+    $em->persist($goal, $user);
+    $em->flush();
+
 
 $connected= $_SESSION['connected'];
 $homeSession = $_SESSION;

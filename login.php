@@ -2,13 +2,9 @@
 
 /*session_start();*/
 require __DIR__ . '/_header.php';
-/**
- * Protection
- */
-/*if (empty($_SESSION['connected'])) {
-    echo 'Forbidden !';
-    die;
-}*/
+
+
+
 /** @var \Doctrine\ORM\EntityManager $em */
 $em = require __DIR__.'/bootstrap.php';
 use Cartman\Init\Trainer\Model\TrainerModel;

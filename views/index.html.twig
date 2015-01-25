@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-{{ homeSession.username }}
+<h1>{{ homeSession.username }}</h1>
+    <h3>Votre pokemon est: {{ pokemon.username }}, il lui reste {{ pokemon.HP }} point de vie</h3>
+
+    <p>Vous ne pouvez faire des attacks qu'une fois toute les 6 heures.
+    <p>Pour récussiter votre Pokemon il faut qu'il n'est plus aucun point de vie</p>
+    <p>Vous ne pouvez le réssusciter qu'une fois par jour.</p>
 {% endblock %}
